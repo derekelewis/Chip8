@@ -1,0 +1,4 @@
+.venv
+roms/
+dev.ipynb
+__pycache__

@@ -12,6 +12,7 @@ class Chip8:
         self._video: bytearray = bytearray(64 * 32)
         self._opcode: int = 0
         self._dispatch = [
+            # (mask, value, fn)
             (0x00FF, 0x00E0, self._op_00E0),  # CLS
             (0x00FF, 0x00EE, self._op_00EE),  # RET
             (0xF000, 0x1000, self._op_1NNN),  # JP addr
@@ -19,6 +20,12 @@ class Chip8:
             (0xF000, 0x3000, self._op_3XKK),  # SE Vx, byte
             (0xF000, 0x4000, self._op_4XKK),  # SNE Vx, byte
             (0xF000, 0x5000, self._op_5XY0),  # SE Vx, Vy
+            (0xF000, 0x6000, self._op_6XKK),  # LD Vx, byte
+            (0xF000, 0x7000, self._op_7XKK),  # ADD Vx, byte
+            (0xF00F, 0x8000, self._op_8XY0),  # LD Vx, Vy
+            (0xF00F, 0x8001, self._op_8XY1),  # OR Vx, Vy
+            (0xF00F, 0x8002, self._op_8XY2),  # AND Vx, Vy
+            (0xF00F, 0x8003, self._op_8XY3),  # XOR Vx, Vy
         ]
 
     def _load_rom(self, path: str) -> None:
@@ -67,3 +74,33 @@ class Chip8:
         reg_y = (op & 0x00F0) >> 4
         if self._registers[reg_x] == self._registers[reg_y]:
             self._pc += 2
+
+    def _op_6XKK(self, op: int) -> None:  # LD Vx, byte
+        reg = (op & 0x0F00) >> 8
+        value = op & 0x00FF
+        self._registers[reg] = value
+
+    def _op_7XKK(self, op: int) -> None:  # ADD Vx, byte
+        reg = (op & 0x0F00) >> 8
+        value = op & 0x00FF
+        self._registers[reg] += value
+
+    def _op_8XY0(self, op: int) -> None:  # LD Vx, Vy
+        reg_x = (op & 0x0F00) >> 8
+        reg_y = (op & 0x00F0) >> 4
+        self._registers[reg_x] = self._registers[reg_y]
+
+    def _op_8XY1(self, op: int) -> None:  # OR Vx, Vy
+        reg_x = (op & 0x0F00) >> 8
+        reg_y = (op & 0x00F0) >> 4
+        self._registers[reg_x] |= self._registers[reg_y]
+
+    def _op_8XY2(self, op: int) -> None:  # AND Vx, Vy
+        reg_x = (op & 0x0F00) >> 8
+        reg_y = (op & 0x00F0) >> 4
+        self._registers[reg_x] &= self._registers[reg_y]
+
+    def _op_8XY3(self, op: int) -> None:  # XOR Vx, Vy
+        reg_x = (op & 0x0F00) >> 8
+        reg_y = (op & 0x00F0) >> 4
+        self._registers[reg_x] ^= self._registers[reg_y]

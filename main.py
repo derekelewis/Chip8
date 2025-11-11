@@ -29,7 +29,7 @@ pixel_buffer: bytearray = bytearray(64 * 32 * 4)
 pixel_array = (ctypes.c_uint8 * len(pixel_buffer)).from_buffer(pixel_buffer)
 pixel_ptr = ctypes.cast(pixel_array, ctypes.c_void_p)
 event = sdl3.SDL_Event()
-cycles_per_frame: int = 50
+cycles_per_frame: int = 12
 running: bool = True
 
 halt_pc: int = 0x276
@@ -56,14 +56,14 @@ while running:
         pixel_buffer[o + 2] = shade
         pixel_buffer[o + 3] = 0xFF
 
-    sdl3.SDL_UpdateTexture(
-        texture, cast(sdl3.LP_SDL_Rect, None), pixel_ptr, ctypes.c_int(64 * 4)
-    )
-    sdl3.SDL_RenderClear(renderer)
-    sdl3.SDL_RenderTexture(
-        renderer, texture, cast(sdl3.LP_SDL_FRect, None), cast(sdl3.LP_SDL_FRect, None)
-    )
-    sdl3.SDL_RenderPresent(renderer)
+    # sdl3.SDL_UpdateTexture(
+    #     texture, cast(sdl3.LP_SDL_Rect, None), pixel_ptr, ctypes.c_int(64 * 4)
+    # )
+    # sdl3.SDL_RenderClear(renderer)
+    # sdl3.SDL_RenderTexture(
+    #     renderer, texture, cast(sdl3.LP_SDL_FRect, None), cast(sdl3.LP_SDL_FRect, None)
+    # )
+    # sdl3.SDL_RenderPresent(renderer)
 
 sdl3.SDL_DestroyTexture(texture)
 sdl3.SDL_DestroyRenderer(renderer)

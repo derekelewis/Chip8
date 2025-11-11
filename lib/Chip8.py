@@ -158,7 +158,7 @@ class Chip8:
         self._pc = (self._pc + 2) & 0x0FFF
         for mask, value, fn in self._dispatch:
             if (op & mask) == value:
-                print(f"Executing {fn.__name__} with op {op:x}")
+                # print(f"Executing {fn.__name__} with op {op:x}")
                 fn(op)
                 if self._delay_timer > 0:
                     self._delay_timer -= 1

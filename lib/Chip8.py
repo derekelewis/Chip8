@@ -160,6 +160,10 @@ class Chip8:
             if (op & mask) == value:
                 print(f"Executing {fn.__name__} with op {op:x}")
                 fn(op)
+                if self._delay_timer > 0:
+                    self._delay_timer -= 1
+                if self._sound_timer > 0:
+                    self._sound_timer -= 1
                 return
         raise ValueError(f"Unknown opcode 0x{op:04X}")
 

@@ -56,14 +56,14 @@ while running:
         pixel_buffer[o + 2] = shade
         pixel_buffer[o + 3] = 0xFF
 
-    # sdl3.SDL_UpdateTexture(
-    #     texture, cast(sdl3.LP_SDL_Rect, None), pixel_ptr, ctypes.c_int(64 * 4)
-    # )
-    # sdl3.SDL_RenderClear(renderer)
-    # sdl3.SDL_RenderTexture(
-    #     renderer, texture, cast(sdl3.LP_SDL_FRect, None), cast(sdl3.LP_SDL_FRect, None)
-    # )
-    # sdl3.SDL_RenderPresent(renderer)
+    sdl3.SDL_UpdateTexture(
+        texture, cast(sdl3.LP_SDL_Rect, None), pixel_ptr, ctypes.c_int(64 * 4)
+    )
+    sdl3.SDL_RenderClear(renderer)
+    sdl3.SDL_RenderTexture(
+        renderer, texture, cast(sdl3.LP_SDL_FRect, None), cast(sdl3.LP_SDL_FRect, None)
+    )
+    sdl3.SDL_RenderPresent(renderer)
 
 sdl3.SDL_DestroyTexture(texture)
 sdl3.SDL_DestroyRenderer(renderer)

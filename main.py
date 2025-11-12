@@ -6,7 +6,7 @@ from lib.Chip8 import Chip8
 
 chip8: Chip8 = Chip8()
 
-chip8._load_rom("./roms/a.ch8")
+chip8._load_rom("./roms/test_opcode.ch8")
 
 sdl3.SDL_Init(cast(sdl3.SDL_InitFlags, sdl3.SDL_INIT_VIDEO))
 window = sdl3.SDL_CreateWindow(
@@ -32,7 +32,7 @@ event = sdl3.SDL_Event()
 cycles_per_frame: int = 12
 running: bool = True
 
-halt_pc: int = 0x276
+halt_pc: int = 0
 
 while running:
     while sdl3.SDL_PollEvent(cast(sdl3.LP_SDL_Event, event)):

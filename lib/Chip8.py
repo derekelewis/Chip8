@@ -105,8 +105,8 @@ class Chip8:
         self._opcode: int = 0
         self._dispatch = [
             # (mask, value, fn)
-            (0x00FF, 0x00E0, self._op_00E0),  # CLS
-            (0x00FF, 0x00EE, self._op_00EE),  # RET
+            (0xFFFF, 0x00E0, self._op_00E0),  # CLS
+            (0xFFFF, 0x00EE, self._op_00EE),  # RET
             (0xF000, 0x0000, self._op_0NNN),  # SYS addr (ignored)
             (0xF000, 0x1000, self._op_1NNN),  # JP addr
             (0xF000, 0x2000, self._op_2NNN),  # CALL addr
@@ -158,7 +158,7 @@ class Chip8:
         self._pc = (self._pc + 2) & 0x0FFF
         for mask, value, fn in self._dispatch:
             if (op & mask) == value:
-                # print(f"Executing {fn.__name__} with op {op:x}")
+                print(f"Executing {fn.__name__} with op {op:x}")
                 fn(op)
                 if self._delay_timer > 0:
                     self._delay_timer -= 1
